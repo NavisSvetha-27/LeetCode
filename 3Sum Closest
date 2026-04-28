@@ -1,0 +1,32 @@
+
+import java.util.Arrays;
+
+class Solution {
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums); // Sort panna dhaan two-pointer work aagum
+        int closestSum = nums[0] + nums[1] + nums[2];
+
+        for (int i = 0; i < nums.length - 2; i++) {
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            while (left < right) {
+                int currentSum = nums[i] + nums[left] + nums[right];
+
+                // Target-ku migavum pakkathula irukura sum-ah update pannu
+                if (Math.abs(target - currentSum) < Math.abs(target - closestSum)) {
+                    closestSum = currentSum;
+                }
+
+                if (currentSum < target) {
+                    left++; // Sum pathala, adhunala increase pannu
+                } else if (currentSum > target) {
+                    right--; // Sum dharasiya iruku, decrease pannu
+                } else {
+                    return currentSum; // Target-ae kedachiduchi!
+                }
+            }
+        }
+        return closestSum;
+    }
+}

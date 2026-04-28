@@ -1,0 +1,29 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(std::string s) {
+        // Use a vector as a fast hash map for ASCII characters
+        std::vector<int> charMap(128, -1); 
+        int maxLength = 0;
+        int left = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            // If the character was seen before, move left pointer
+            // to the right of the last seen position
+            if (charMap[s[right]] >= left) {
+                left = charMap[s[right]] + 1;
+            }
+
+            // Update the last seen index of the character
+            charMap[s[right]] = right;
+            
+            // Calculate window size
+            maxLength = std::max(maxLength, right - left + 1);
+        }
+
+        return maxLength;
+    }
+};

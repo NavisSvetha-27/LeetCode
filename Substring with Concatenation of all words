@@ -1,0 +1,49 @@
+import java.util.*;
+
+class Solution {
+    public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> result = new ArrayList<>();
+        if (s == null || words.length == 0) return result;
+
+        int wordLen = words[0].length();
+        int wordCount = words.length;
+        int totalLen = wordLen * wordCount;
+        
+        // Step 1: Store all words and their frequency in a Map
+        Map<String, Integer> wordMap = new HashMap<>();
+        for (String word : words) {
+            wordMap.put(word, wordMap.getOrDefault(word, 0) + 1);
+        }
+
+        // Step 2: Iterate through the string
+        for (int i = 0; i <= s.length() - totalLen; i++) {
+            Map<String, Integer> seen = new HashMap<>();
+            int j = 0;
+            
+            while (j < wordCount) {
+                // Current word-ah cut panni edukkanum
+                int wordStart = i + j * wordLen;
+                String currentWord = s.substring(wordStart, wordStart + wordLen);
+                
+                if (wordMap.containsKey(currentWord)) {
+                    seen.put(currentWord, seen.getOrDefault(currentWord, 0) + 1);
+                    
+                    // Extra-va word vandha loop break pannu
+                    if (seen.get(currentWord) > wordMap.get(currentWord)) {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+                j++;
+            }
+            
+            // Ella words-um correct-ah match aagi irundha, index-ah add pannu
+            if (j == wordCount) {
+                result.add(i);
+            }
+        }
+        
+        return result;
+    }
+}

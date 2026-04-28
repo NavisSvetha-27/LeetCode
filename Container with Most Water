@@ -1,0 +1,30 @@
+class Solution {
+    public int maxArea(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+        int maxWater = 0;
+
+        while (left < right) {
+            // Width kandupidi (distance between pointers)
+            int width = right - left;
+            
+            // Shortest height-a vechi height-a determine pannu
+            int currentHeight = Math.min(height[left], height[right]);
+            
+            // Area calculation
+            int currentArea = width * currentHeight;
+            
+            // Max area-va update pannu
+            maxWater = Math.max(maxWater, currentArea);
+
+            // Shorter-ah irukura line-ah move pannu
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return maxWater;
+    }
+}
